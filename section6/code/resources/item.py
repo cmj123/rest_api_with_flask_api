@@ -53,14 +53,14 @@ class Item(Resource):
         data = Item.parser.parse_args()
 
         item = ItemModel.find_by_name(name)
-        updated_item = ItemModel(name, **data ) # *data = data['price'], data['store_id'] #{'name':name, 'price':data['price']}
+        # updated_item = ItemModel(name, **data ) # *data = data['price'], data['store_id'] #{'name':name, 'price':data['price']}
 
 
         if item is None:
-            item = ItemModel(name, data['price'])
+            item = ItemModel(name, **data)
+
         else:
-            item.price = data['price']
-            item.store_id = data['store_id']
+            item = ItemModel(name, data['price'])
 
         item.save_to_db()
         return item.json()
